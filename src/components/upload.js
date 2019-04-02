@@ -84,6 +84,7 @@ class AdminUpload extends React.Component
                 <div className="small-10 columns">
                     <div className='row gallery-container small-up-2 medium-up-4 large-up-4'>
                         {this.props.upload.upload_ar.map((item, index)=>{
+							console.log(index, item.complete);
                             const comp = 'Complete:-'+item.complete+'%';
                             return(
                         <div key={index+item.fname} className='column column-block gallery'>

@@ -39,23 +39,23 @@ const upload_list = (list, index, dir, filetype, dispatch)=>{
 
 
 				let inner_index = 0;
-				window.setTimeout(()=>{
-				while(inner_index <= 10)
-				{
-					console.log(index, inner_index);
-					if(inner_index === 10)
+				const tim = window.setInterval(()=>{
+					if(inner_index <= 10)
 					{
-						dispatch({type:FILE_PROGRESS, complete:100, fname:item.fname});
-						index++;
-						return resolve(index);
+						if(inner_index === 10)
+						{
+							dispatch({type:FILE_PROGRESS, complete:100, fname:item.fname});
+							index++;
+							clearInterval(tim);
+							return resolve(index);
+						}
+						else
+						{
+							inner_index++;						
+							dispatch({type:FILE_PROGRESS, complete:inner_index*10, fname:item.fname});
+						}
 					}
-					else
-					{
-						inner_index++;						
-						dispatch({type:FILE_PROGRESS, complete:inner_index*10, fname:item.fname});
-					}
-				}
-			}, 1000);
+				}, 50);
 
 
 				/*
