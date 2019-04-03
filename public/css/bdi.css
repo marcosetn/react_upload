@@ -52,9 +52,6 @@ h6{
 a{
 
 }
-p{
-	font-family: "Merriweather", Georgia, serif;
-}
 
 .bigem{
 	font-weight: bold;
@@ -692,16 +689,22 @@ margin:0;
 padding:0;
 }*/
 
+.target
+{
+	padding: 10px;
+	border-radius: 6px;
+	color:white;
+}
+
 
 .drag_drop_normal
 {
 	background-color:grey;
-	color:white;
 }
 
 .drag_drop_over
 {
-	background-color:green;
+	background-color:rgb(63, 58, 58);
 }
 
 .bad_upload_name{
@@ -710,7 +713,7 @@ padding:0;
 
 .drag
 {
-	background-color:green;
+	background-color:rgb(63, 58, 58);
 }
 
 .non-drag
@@ -726,4 +729,15 @@ padding:0;
 .drag-trash
 {
 	background-color:red;
+}
+
+.uploadable-thumb
+{
+	max-height:100px !important;
+}
+
+.uploadable-thumb-wrap
+{
+	border: solid 1px silver;
+	padding-top: 10px;
 }

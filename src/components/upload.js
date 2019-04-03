@@ -88,10 +88,10 @@ class AdminUpload extends React.Component
                         {this.props.upload.upload_ar.map((item, index)=>{
 							const comp = item.complete < 100 ? item.complete + '%' : 'FINISHED';
                             return(
-                        <div key={index+item.fname} className='column column-block gallery'>
+                        <div key={index+item.fname} className='column column-block gallery uploadable-thumb-wrap'>
                             {
-                                (this.props.filetype==='image' & item.enabled === VALID_UPLOAD.Uploadable) ? 
-                                    <img  src={item.file_data} />:<div className='bad_upload_name'>
+								(this.props.filetype==='image' & item.enabled === VALID_UPLOAD.Uploadable) ? 
+	                                <img className='uploadable-thumb'  src={item.file_data} />:<div className='bad_upload_name'>
                                     {item.fname}</div>
                             }
                         <p>{(item.complete !== UPLOAD_ACTIONS.UPLOAD_NONE) ? comp : VALID_UPLOAD_DISPLAY[item.enabled]}</p>
