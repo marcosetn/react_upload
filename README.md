@@ -1,6 +1,7 @@
-A Snippet from my React/Redux CMS for uploading images to the server.
+A Snippet from my React/Redux CMS.
+I've extracted the component, actions and reducer which I use for uploading images to the server.
 
-Obviously it won't work for real unless you're connected to a backend.
+Obviously it won't work for real unless you're connected to the backend.
 
 For demo purposes I have replaced the function which does the xhr.send. It emulates an upload and updates the redux state 
 accordingly so the upload component displays valid data.
