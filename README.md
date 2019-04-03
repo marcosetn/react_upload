@@ -1,5 +1,5 @@
 A Snippet from my React/Redux CMS.
-I've extracted the component, actions and reducer which I use for uploading images to the server.
+I've extracted the component, actions and reducer which I've been working on for uploading images to the server.
 
 Obviously it won't work for real unless you're connected to the backend.
 
