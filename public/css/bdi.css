@@ -694,6 +694,13 @@ padding:0;
 	padding: 10px;
 	border-radius: 6px;
 	color:white;
+	text-align:center;
+}
+
+.upload-status
+{
+	margin-bottom: 10px;
+	background-color:grey;
 }
 
 
@@ -739,5 +746,6 @@ padding:0;
 .uploadable-thumb-wrap
 {
 	border: solid 1px silver;
-	padding-top: 10px;
+	padding: 10px;
+	text-align: center;
 }

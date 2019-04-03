@@ -73,7 +73,7 @@ class AdminUpload extends React.Component
         <React.Fragment>
             <div className="row">
                 <div className="small-2 columns">
-                    <div>{this.props.upload.upload_state}</div>
+                    <div className='upload-status target'>{this.props.upload.upload_state}</div>
                     {this.props.filetype==='image'?
                     <select value={this.props.upload.selected_directory} onChange={this.setSelected}>{this.props.upload.directories.map((item)=><option key={item} value={item}>{item}</option>)}</select>
                     :null}
@@ -88,7 +88,8 @@ class AdminUpload extends React.Component
                         {this.props.upload.upload_ar.map((item, index)=>{
 							const comp = item.complete < 100 ? item.complete + '%' : 'FINISHED';
                             return(
-                        <div key={index+item.fname} className='column column-block gallery uploadable-thumb-wrap'>
+                        <div key={index+item.fname} className='column column-block gallery'>
+						<div className = ' uploadable-thumb-wrap'>
                             {
 								(this.props.filetype==='image' & item.enabled === VALID_UPLOAD.Uploadable) ? 
 	                                <img className='uploadable-thumb'  src={item.file_data} />:<div className='bad_upload_name'>
@@ -96,6 +97,7 @@ class AdminUpload extends React.Component
                             }
                         <p>{(item.complete !== UPLOAD_ACTIONS.UPLOAD_NONE) ? comp : VALID_UPLOAD_DISPLAY[item.enabled]}</p>
                         <p><button id={'remove_'+index} className='button' onClick={this.props.remove_uploadable.bind(this, index)} disabled={this.props.upload.upload_state !== UPLOAD_ACTIONS.UPLOAD_NONE}>Delete</button></p>
+					</div>
         </div>)})}
                 </div>
             </div>
