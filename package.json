@@ -43,5 +43,5 @@
   "devDependencies": {
     "eslint-config-airbnb": "^17.1.0"
   },
-  "homepage": "http://localhost/react_uploader/build/"
+  "homepage": "http://localhost/react_upload/build/"
 }

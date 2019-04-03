@@ -74,7 +74,7 @@ class AdminUpload extends React.Component
             <div className="row">
                 <div className="small-2 columns">
                     <div className='upload-status target'>{this.props.upload.upload_state}</div>
-					<div>Upload To Directory</div>
+					<div>Upload To</div>
 					{this.props.filetype==='image'?
                     <select value={this.props.upload.selected_directory} onChange={this.setSelected}>{this.props.upload.directories.map((item)=><option key={item} value={item}>{item}</option>)}</select>
                     :null}
