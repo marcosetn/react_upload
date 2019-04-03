@@ -12,24 +12,24 @@ class AdminUpload extends React.Component
     {
         super();
         this.selectFile = this.selectFile.bind(this);
-        this.do_upload = this.do_upload.bind(this);
-        this.file_selector=React.createRef();
-        this.select_files=this.select_files.bind(this);
+        this.doUpload = this.doUpload.bind(this);
+        this.fileSelector=React.createRef();
+        this.selectFiles=this.selectFiles.bind(this);
         this.onDrop = this.onDrop.bind(this);
         this.setSelected = this.setSelected.bind(this);
     }
 
     componentDidMount()
     {
-        this.props.init_upload_page(this.props.filetype);
+        this.props.initUploadPage(this.props.filetype);
     }
 
 
-    do_upload()
+    doUpload()
     {
 		if(this.props.upload.upload_ar.length === 0 )
 			return;
-        this.props.do_upload(this.props.upload.upload_ar, this.props.upload.selected_directory, this.props.filetype);
+        this.props.doUpload(this.props.upload.upload_ar, this.props.upload.selected_directory, this.props.filetype);
     }
 
     selectFile(e)
@@ -47,14 +47,14 @@ class AdminUpload extends React.Component
     createUploadableFile(file){
         let reader = new FileReader();
         reader.onload = (e)=>{
-            this.props.add_uploadable({fname: file.name, file_data: e.target.result, size:file.size, filetype:this.props.filetype});
+            this.props.addUploadable({fname: file.name, file_data: e.target.result, size:file.size, filetype:this.props.filetype});
         }
         reader.readAsDataURL(file);
     }
 
-    select_files()
+    selectFiles()
     {
-        this.file_selector.current.click();
+        this.fileSelector.current.click();
     }
 
     onDrop(dropped){
@@ -63,10 +63,10 @@ class AdminUpload extends React.Component
 
     setSelected(e)
     {
-        this.props.select_directory(e.target.value);
+        this.props.selectDirectory(e.target.value);
     }
 
-    render()
+    render() 
     {
         const hidden={display:'none'};
         return (            
@@ -77,10 +77,10 @@ class AdminUpload extends React.Component
                     {this.props.filetype==='image'?
                     <select value={this.props.upload.selected_directory} onChange={this.setSelected}>{this.props.upload.directories.map((item)=><option key={item} value={item}>{item}</option>)}</select>
                     :null}
-                    <button className='button' onClick={this.do_upload} disabled={this.props.upload.upload_state===UPLOAD_ACTIONS.UPLOAD_COMPLETE}>Upload</button>
-                    <button className='button' onClick={this.select_files}>select</button>
+                    <button className='button' onClick={this.doUpload} disabled={this.props.upload.upload_state===UPLOAD_ACTIONS.UPLOAD_COMPLETE}>Upload</button>
+                    <button className='button' onClick={this.selectFiles}>select</button>
                     <DropTarget onDrop = {this.onDrop} />
-                    <div style={hidden}><input ref={this.file_selector} type='file' id='single' onChange={this.selectFile} multiple /></div>
+                    <div style={hidden}><input ref={this.fileSelector} type='file' id='single' onChange={this.selectFile} multiple /></div>
                     <div className='drag_drop_panel'></div>
                 </div>
                 <div className="small-10 columns">
@@ -92,11 +92,11 @@ class AdminUpload extends React.Component
 						<div className = ' uploadable-thumb-wrap'>
                             {
 								(this.props.filetype==='image' & item.enabled === VALID_UPLOAD.Uploadable) ? 
-	                                <img className='uploadable-thumb'  src={item.file_data} />:<div className='bad_upload_name'>
+	                                <img className='uploadable-thumb'  src={item.file_data} alt={'uplodable'+item.file_data}/>:<div className='bad_upload_name'>
                                     {item.fname}</div>
                             }
                         <p>{(item.complete !== UPLOAD_ACTIONS.UPLOAD_NONE) ? comp : VALID_UPLOAD_DISPLAY[item.enabled]}</p>
-                        <p><button id={'remove_'+index} className='button' onClick={this.props.remove_uploadable.bind(this, index)} disabled={this.props.upload.upload_state !== UPLOAD_ACTIONS.UPLOAD_NONE}>Delete</button></p>
+                        <p><button id={'remove_'+index} className='button' onClick={this.props.removeUploadable.bind(this, index)} disabled={this.props.upload.upload_state !== UPLOAD_ACTIONS.UPLOAD_NONE}>Delete</button></p>
 					</div>
         </div>)})}
                 </div>
@@ -116,11 +116,11 @@ const mapStateToProps = state => {
     
 const mapDispatchToProps = dispatch=>{
         return {
-            do_upload: (ar, dir, filetype)=>dispatch(UPLOAD_ACTIONS.do_upload(ar, dir, filetype)),
-            add_uploadable: (img)=>dispatch(UPLOAD_ACTIONS.add_to_upload(img)),
-            remove_uploadable: (index)=>dispatch(UPLOAD_ACTIONS.remove_uploadable(index)),
-            init_upload_page: (filetype)=>dispatch(UPLOAD_ACTIONS.InitUploadPage(filetype)),
-            select_directory: (val)=>dispatch(UPLOAD_ACTIONS.SelectDirectory(val))
+            doUpload: (ar, dir, filetype)=>dispatch(UPLOAD_ACTIONS.doUpload(ar, dir, filetype)),
+            addUploadable: (img)=>dispatch(UPLOAD_ACTIONS.addToUpload(img)),
+            removeUploadable: (index)=>dispatch(UPLOAD_ACTIONS.removeUploadable(index)),
+            initUploadPage: (filetype)=>dispatch(UPLOAD_ACTIONS.InitUploadPage(filetype)),
+            selectDirectory: (val)=>dispatch(UPLOAD_ACTIONS.SelectDirectory(val))
         }
       }
       

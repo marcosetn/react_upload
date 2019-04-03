@@ -84,8 +84,8 @@ const mapStateToProps = state => {
     
 const mapDispatchToProps = dispatch=>{
         return {
-            do_upload: (ar)=>dispatch(UPLOAD_ACTIONS.do_upload(ar)),
-            add_uploadable: (img)=>dispatch(UPLOAD_ACTIONS.add_to_upload(img))
+            do_upload: (ar)=>dispatch(UPLOAD_ACTIONS.doUpload(ar)),
+            add_uploadable: (img)=>dispatch(UPLOAD_ACTIONS.addToUpload(img))
         }
       }
       

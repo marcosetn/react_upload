@@ -16,10 +16,15 @@ export const UPLOAD_FAILED = 'FAILED';
 export const FILE_PROGRESS = 'FILE_PROGRESS';
 
 const _URL = 'http://localhost/bttc/public/';
+const ADMIN_URL = `${_URL}admin/`;
+
+// const VALID_UPLOAD=Object.freeze({"Uploadable":0, "Cancelled":1, "Too Big":2, "Wrong Filetype":3});
+
+const sleep = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds));
 
 
-const uploadList = (list, index, dir, filetype, dispatch) => new Promise((resolve, reject) => {
-  function uploadFile(list, index, dir, filetype, dispatch) {
+const upload_list = (list, index, dir, filetype, dispatch) => new Promise((resolve, reject) => {
+  function upload_file(list, index, dir, filetype, dispatch) {
     return new Promise((resolve) => {
       const item = list[index];
       if (item.enabled !== VALID_UPLOAD.Uploadable) {
@@ -30,7 +35,7 @@ const uploadList = (list, index, dir, filetype, dispatch) => new Promise((resolv
       f.append('dir', dir);
       f.append('filetype', filetype);
 
-      let innerIndex = 0;
+      const innerIndex = 0;
       const tim = window.setInterval(() => {
         if (innerIndex <= 10) {
           if (innerIndex === 10) {
@@ -40,26 +45,53 @@ const uploadList = (list, index, dir, filetype, dispatch) => new Promise((resolv
             return resolve(index);
           }
 
-          innerIndex++;
-          dispatch({ type: FILE_PROGRESS, complete: innerIndex * 10, fname: item.fname });
+          inner_index++;
+          dispatch({ type: FILE_PROGRESS, complete: inner_index * 10, fname: item.fname });
         }
       }, 50);
+
+
+      /*
+                const xhr = new XMLHttpRequest();
+
+                xhr.addEventListener("progress", function(e) {
+                    if (e.lengthComputable) {
+                        let percentComplete = e.loaded / e.total * 100;
+                        dispatch({type:FILE_PROGRESS, complete:e.loaded/e.total, fname:item.fname});
+                    }
+                });
+
+                xhr.addEventListener('load', (e)=>{
+                    const obj = JSON.parse(e.currentTarget.response);
+                    if(!obj.hasOwnProperty('error'))
+                        dispatch({type:FILE_PROGRESS, complete:100, fname:item.fname});
+                    else
+                        dispatch({type:FILE_PROGRESS, complete:obj.error, fname:item.fname});
+                    index++;
+                    return resolve(index);
+                });
+                xhr.addEventListener('error', e=>{
+                    console.dir(e);
+                });
+                xhr.open("POST", _URL+'do_upload');
+				xhr.send(f);
+				*/
     });
   }
-  function recursiveLoop(list, index, dir, filetype, dispatch) {
-    uploadFile(list, index, dir, filetype, dispatch)
+  function recursive_loop(list, index, dir, filetype, dispatch) {
+    upload_file(list, index, dir, filetype, dispatch)
       .then((val) => {
         index = val;
-        if (index < list.length) recursiveLoop(list, index, dir, filetype, dispatch);
+        if (index < list.length) recursive_loop(list, index, dir, filetype, dispatch);
         else resolve('all done');
       });
   }
-  return recursiveLoop(list, index, dir, filetype, dispatch);
+  return recursive_loop(list, index, dir, filetype, dispatch);
 });
 
 
-const realUploadList = (list, index, dir, filetype, dispatch) => new Promise((resolve, reject) => {
-  function uploadFile(list, index, dir, filetype, dispatch) {
+const real_upload_list = (list, index, dir, filetype, dispatch) => new Promise((resolve, reject) => {
+  function upload_file(list, index, dir, filetype, dispatch) {
     return new Promise((resolve) => {
       const item = list[index];
       if (item.enabled !== VALID_UPLOAD.Uploadable) return resolve(++index);
@@ -90,35 +122,35 @@ const realUploadList = (list, index, dir, filetype, dispatch) => new Promise((re
       xhr.send(f);
     });
   }
-  function recursiveLoop(list, index, dir, filetype, dispatch) {
-    uploadFile(list, index, dir, filetype, dispatch)
+  function recursive_loop(list, index, dir, filetype, dispatch) {
+    upload_file(list, index, dir, filetype, dispatch)
       .then((val) => {
         index = val;
-        if (index < list.length) recursiveLoop(list, index, dir, filetype, dispatch);
+        if (index < list.length) recursive_loop(list, index, dir, filetype, dispatch);
         else resolve('all done');
       });
   }
-  return recursiveLoop(list, index, dir, filetype, dispatch);
+  return recursive_loop(list, index, dir, filetype, dispatch);
 });
 
 
-export const doUpload = (flist, dir, filetype) => (dispatch) => {
-  dispatch(setUploadState(UPLOAD_IN_PROGRESS));
-  uploadList(flist, 0, dir, filetype, dispatch)
-    .then(() => dispatch(setUploadState(UPLOAD_COMPLETE)));
+export const do_upload = (flist, dir, filetype) => (dispatch) => {
+  dispatch(set_upload_state(UPLOAD_IN_PROGRESS));
+  upload_list(flist, 0, dir, filetype, dispatch)
+    .then(() => dispatch(set_upload_state(UPLOAD_COMPLETE)));
 };
 
-export const setUploadState = uploadState => ({
+export const set_upload_state = upload_state => ({
   type: SET_UPLOAD_STATE,
-  uploadState,
+  upload_state,
 });
 
-export const addToUpload = item => ({
+export const add_to_upload = item => ({
   type: ADD_UPLOADABLE,
   payload: item,
 });
 
-export const removeUploadable = index => ({
+export const remove_uploadable = index => ({
   type: REMOVE_UPLOADABLE,
   index,
 });

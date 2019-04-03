@@ -4,7 +4,7 @@ import {NativeTypes} from 'react-dnd-html5-backend';
 
 class Target extends Component{
     render(){
-       const { isOver, connectDropTarget, droppedItem } = this.props;
+   //    const { isOver, connectDropTarget, droppedItem } = this.props;
        let className = this.props.isOver ? 'drag_drop_over':'drag_drop_normal';
         return this.props.connectDropTarget(
             <div className={`target ${className}`}>
