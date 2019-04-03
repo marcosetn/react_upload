@@ -38,3 +38,4 @@ export const FETCH_HEADERS_AUTH=()=>{return{...FETCH_HEADERS, authorization: `Be
 export const IMAGE_REGEX = /(\.jpg|\.jpeg|\.png|\.gif)$/i;  
 export const DOCS_REGEX = /(\.pdf|\.xls|\.doc)$/i; 
 export const VALID_UPLOAD=Object.freeze({"Uploadable":0, "Cancelled":1, "Too Big":2, "Wrong Filetype":3});
+export const VALID_UPLOAD_DISPLAY=["Ready", "Cancelled", "Too Big", "Wrong Filetype"];

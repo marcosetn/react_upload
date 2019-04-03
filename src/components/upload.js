@@ -1,7 +1,7 @@
 import React from 'react';
 import * as UPLOAD_ACTIONS from '../actions/file_upload';
 import {connect} from 'react-redux';
-import {VALID_UPLOAD} from '../consts';
+import {VALID_UPLOAD, VALID_UPLOAD_DISPLAY} from '../consts';
 import DropTarget from './drag_drop_target';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -27,6 +27,8 @@ class AdminUpload extends React.Component
 
     do_upload()
     {
+		if(this.props.upload.upload_ar.length === 0 )
+			return;
         this.props.do_upload(this.props.upload.upload_ar, this.props.upload.selected_directory, this.props.filetype);
     }
 
@@ -71,7 +73,7 @@ class AdminUpload extends React.Component
         <React.Fragment>
             <div className="row">
                 <div className="small-2 columns">
-                    <div>state - {this.props.upload.upload_state}</div>
+                    <div>{this.props.upload.upload_state}</div>
                     {this.props.filetype==='image'?
                     <select value={this.props.upload.selected_directory} onChange={this.setSelected}>{this.props.upload.directories.map((item)=><option key={item} value={item}>{item}</option>)}</select>
                     :null}
@@ -84,8 +86,7 @@ class AdminUpload extends React.Component
                 <div className="small-10 columns">
                     <div className='row gallery-container small-up-2 medium-up-4 large-up-4'>
                         {this.props.upload.upload_ar.map((item, index)=>{
-							console.log(index, item.complete);
-                            const comp = 'Complete:-'+item.complete+'%';
+							const comp = item.complete < 100 ? item.complete + '%' : 'FINISHED';
                             return(
                         <div key={index+item.fname} className='column column-block gallery'>
                             {
@@ -93,8 +94,7 @@ class AdminUpload extends React.Component
                                     <img  src={item.file_data} />:<div className='bad_upload_name'>
                                     {item.fname}</div>
                             }
-                        <p>{(item.complete !== UPLOAD_ACTIONS.UPLOAD_NONE) ? comp :null}</p>
-                        <p>{item.enabled ?  Object.keys(VALID_UPLOAD)[item.enabled] : item.complete === 100?null:'READY'}</p>
+                        <p>{(item.complete !== UPLOAD_ACTIONS.UPLOAD_NONE) ? comp : VALID_UPLOAD_DISPLAY[item.enabled]}</p>
                         <p><button id={'remove_'+index} className='button' onClick={this.props.remove_uploadable.bind(this, index)} disabled={this.props.upload.upload_state !== UPLOAD_ACTIONS.UPLOAD_NONE}>Delete</button></p>
         </div>)})}
                 </div>

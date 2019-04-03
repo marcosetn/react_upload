@@ -20,9 +20,10 @@ export default function FileUploadReducer(state=init_file_upload(), action)
                 if(action.payload.filetype==='image')
                     regex=IMAGE_REGEX;
                 else
-                    regex=DOCS_REGEX;
-                if(!regex.exec(action.payload.fname))
-                    upload=VALID_UPLOAD['Wrong Filetype'];
+					regex=DOCS_REGEX;
+
+				if(regex.exec(action.payload.fname) === null)
+					upload=VALID_UPLOAD['Wrong Filetype'];
             }
             return state.upload_state === UPLOAD_COMPLETE ?
                 {...state, upload_ar: [{...p,  enabled:upload, complete:UPLOAD_NONE}], upload_state:UPLOAD_NONE}

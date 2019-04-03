@@ -1,3 +1,4 @@
+import {VALID_UPLOAD} from '../consts';
 
 export const ADD_UPLOADABLE="ADD_UPLOADABLE";
 export const REMOVE_UPLOADABLE="REMOVE_UPLOADABLE";
@@ -6,16 +7,16 @@ export const SET_UPLOAD_STATE="SET_UPLOAD_STATE";
 export const INIT_UPLOAD_PAGE="INIT_UPLOAD_PAGE";
 export const SELECT_DIRECTORY="SELECT_DIRECTORY";
 
-export const UPLOAD_IN_PROGRESS="UPLOAD_IN_PROGRESS";
-export const UPLOAD_NONE="UPLOAD_NONE";
-export const UPLOAD_COMPLETE="COMPLETE";
+export const UPLOAD_IN_PROGRESS="UPLOAD IN PROGRESS";
+export const UPLOAD_NONE="READY";
+export const UPLOAD_COMPLETE="UPLOAD COMPLETE";
 export const UPLOAD_FAILED="FAILED";
 export const FILE_PROGRESS="FILE_PROGRESS";
 
 const _URL = "http://localhost/bttc/public/";
 const ADMIN_URL = _URL + 'admin/';
 
-const VALID_UPLOAD=Object.freeze({"Uploadable":0, "Cancelled":1, "Too Big":2, "Wrong Filetype":3});
+//const VALID_UPLOAD=Object.freeze({"Uploadable":0, "Cancelled":1, "Too Big":2, "Wrong Filetype":3});
 
 const sleep = (milliseconds) => {
 	return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -185,8 +186,15 @@ export const remove_uploadable=index=>{
     }
 }
 
+/*emulate response from server - returns directory names where images are stored */
 export function InitUploadPage(filetype)
 {
+	return {
+		type: INIT_UPLOAD_PAGE,
+		directories : ['slideshow', 'recipes', 'ingredients']
+   }
+
+	/*
     return dispatch=>{
         return fetch(ADMIN_URL+'image_directories/'+filetype, {method:'GET'})
         .then(res=>res.json())
@@ -196,7 +204,8 @@ export function InitUploadPage(filetype)
                 directories : res.directories
            });
         });
-    }
+	}
+	*/
 }
 
 export const SelectDirectory = selected=>
